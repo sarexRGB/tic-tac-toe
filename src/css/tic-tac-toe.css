@@ -1,0 +1,40 @@
+body{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(rgb(112, 34, 202), rgb(66, 16, 180), rgb(172, 29, 164), rgb(66, 16, 180), rgb(112, 34, 202));
+}
+
+#main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    gap: px;
+}
+
+#gameBoard{
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    border: 1px solid purple;
+    margin-bottom:30px ;
+    background: rgba(141, 36, 141, 0.774);
+}
+
+.q{
+    height: 100px;
+    width: 100px;
+    border: 1px solid purple;
+}
+
+#restartBtn{
+    width: 100px;
+    border: 5px thin rgb(44, 7, 44);
+    border-radius: 6px;
+    background: rgb(119, 22, 119);
+    color: rgb(24, 1, 24);
+}
+
+
+
