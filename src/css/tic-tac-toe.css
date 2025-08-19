@@ -16,7 +16,7 @@ body{
 
 #gameBoard{
     display: grid;
-    grid-template-columns: repeat(3, 100px);
+    grid-template-columns: repeat(3, auto);
     border: 1px solid purple;
     margin-bottom:30px ;
     background: rgba(141, 36, 141, 0.774);
@@ -26,6 +26,10 @@ body{
     height: 100px;
     width: 100px;
     border: 1px solid purple;
+    cursor: pointer;
+    font-size: 90px;
+    font-family: sans-serif;
+    color: rgb(18, 1, 29);
 }
 
 #restartBtn{
