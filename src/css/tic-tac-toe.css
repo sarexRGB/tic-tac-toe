@@ -44,3 +44,22 @@ body{
     color: rgb(29, 5, 29);
 }
 
+.controls{
+margin: 15px 0;
+}
+
+.controls button{
+    margin: o 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+    background: rgb(119, 22, 119);
+    color: rgb(24, 1, 24);
+    border: 5px thin rgb(44, 7, 44);
+    border-radius: 6px;
+}
+
+.controls button.active{
+   background: rgba(119, 22, 119, 0.767);
+    color: rgb(34, 12, 34);
+    border: 5px thin rgb(44, 7, 44);
+}
