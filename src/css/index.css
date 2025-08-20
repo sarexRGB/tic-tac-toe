@@ -1,0 +1,68 @@
+body{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100vh;
+    margin: 0;
+    color: rgb(18, 1, 29);
+    background: linear-gradient(rgb(112, 34, 202), rgb(66, 16, 180), rgb(172, 29, 164), rgb(66, 16, 180), rgb(112, 34, 202));
+}
+
+#setup {
+    background: rgba(112, 27, 112, 0.308);
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    width: 300px;
+}
+
+h1, h2 {
+    margin: 10px 0;
+}
+
+label {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.player2, #difficulty {
+    display: none;
+}
+
+input[value="pvp"]:checked ~ .player2 {
+    display: block;
+}
+
+input[value="pvm"]:checked ~ #difficulty {
+    display: block;
+}
+
+#setupForm input,
+#setupForm select,
+#startBtn {
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 5px;
+    background: rgba(107, 6, 107, 0.288);
+    border: 1px solid purple;
+    box-sizing: border-box;
+}
+
+#startBtn {
+    background: rgb(88, 8, 88);
+    color: rgb(24, 1, 24);
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#startBtn:hover {
+    background-color: rgb(119, 22, 119);
+}
+
+#difficulty {
+    margin-top: 10px;
+}

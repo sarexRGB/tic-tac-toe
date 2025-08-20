@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe - Setup</title>
+    <link rel="stylesheet" href="src/css/index.css">
+</head>
+<body>
+    <div id="setup">
+        <h1>Tic Tac Toe</h1>
+        <h2>Game Setup</h2>
+
+        <div id="setupForm">
+            <label>
+                <input type="radio" name="mode" value="pvp" id="pvp" checked>
+                1 vs 1
+            </label>
+            <label>
+                <input type="radio" name="mode" value="pvm" id="pvm">
+                1 vs Machine
+            </label>
+        
+            <input type="text" id="player1" placeholder="Player 1 name" required>
+
+            <div class="player2">
+                <input type="text" id="player2" placeholder="Player 2 name">
+            </div>
+
+            <div id="difficulty">
+                <span>Difficulty:</span>
+                <select id="difficultySelect">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+
+            <button id="startBtn">Start Game</button>
+        </div>
+    </div>
+
+
+    <script src="src/js/index.js"></script>
+</body>
+</html>

@@ -2,13 +2,12 @@
 const cells = document.getElementsByClassName("q");
 const statusText = document.getElementById("statusText");
 const restartBtn = document.getElementById("restartBtn");
+const setupBtn = document.getElementById("setupBtn");
 
-const easyBtn = document.getElementById("easyBtn");
-const mediumBtn = document.getElementById("mediumBtn");
-const hardBtn = document.getElementById("hardBtn");
-
-const pvpBtn = document.getElementById("pvpBtn");
-const pvmBtn = document.getElementById("pvmBtn");
+const mode = localStorage.getItem("mode") || "pvp";
+const difficulty = localStorage.getItem("difficulty") || "easy";
+const player1Name = localStorage.getItem("player1") ||"player1";
+const player2Name = localStorage.getItem("player2") || "player2";
 
 const winConditions = [
     [0,1,2],[3,4,5],[6,7,8],
@@ -19,8 +18,6 @@ const winConditions = [
 let options = ["", "", "", "", "", "", "", "", ""];
 let currentPlayer = "X";
 let running = false;
-let difficulty = "easy";
-let mode = "pvm"; //pvm= player vs machine, pvp= player vs player
 
 // Iniciar juego //
 startGame()
@@ -28,18 +25,10 @@ startGame()
 function startGame() {
     Array.from(cells).forEach(cell => cell.addEventListener("click", cellClicked));
     restartBtn.addEventListener("click", restartGame);
+    setupBtn.addEventListener("click", backToSetup);
 
-    easyBtn.addEventListener("click", () => setDifficulty("easy"));
-    mediumBtn.addEventListener("click", () => setDifficulty("medium"));
-    hardBtn.addEventListener("click", () => setDifficulty("hard"));
-
-    pvpBtn.addEventListener("click", () => setMode("pvp"));
-    pvmBtn.addEventListener("click", () => setMode("pvm"));
-
-    statusText.textContent = `${currentPlayer}'s turn`;
+    statusText.textContent = `${getCurrentPlayerName()}'s turn`;
     running = true;
-    highlightDifficultyButton();
-    highlightModeButton();
 }
 
 // Jugadas //
@@ -52,7 +41,7 @@ function cellClicked() {
     checkWinner();
 
     if (running && mode === "pvm" && currentPlayer === "O") {
-        setTimeout(machineMove, 300);
+        setTimeout(machineMove, 500);
     }
 }
 
@@ -63,7 +52,7 @@ function updateCell(cell, i) {
 
 function changePlayer() {
     currentPlayer = (currentPlayer === "X") ? "O" : "X";
-    statusText.textContent = `${currentPlayer}'s turn`
+    statusText.textContent = `${getCurrentPlayerName()}'s turn`
 }
 
 function checkWinner() {
@@ -83,7 +72,7 @@ function checkWinner() {
     }
 
     if (roundWon) {
-        statusText.textContent = `${currentPlayer} wins!`;
+        statusText.textContent = `${getCurrentPlayerName()} wins!`;
         running = false;
     }else if (!options.includes("")) {
         statusText.textContent = `Draw!`;
@@ -186,42 +175,23 @@ function playMove(index){
     checkWinner();
 }
 
-// Modo de juego //
-function setMode(selectedMode) {
-    mode = selectedMode;
-    restartGame();
-    highlightModeButton();
-}
-
-function highlightModeButton() {
-    pvpBtn.classList.remove("avtive");
-    pvmBtn.classList.remove("avtive");
-    if(mode === "pvp") pvpBtn.classList.add("active");
-    if(mode === "pvm") pvmBtn.classList.add("active");
-}
-
-// Dificultad de IA //
-function setDifficulty(level) {
-    difficulty = level;
-    restartGame();
-    highlightDifficultyButton();
-}
-
-function highlightDifficultyButton(){
-    easyBtn.classList.remove("active");
-    mediumBtn.classList.remove("active");
-    hardBtn.classList.remove("active");
-
-    if(difficulty==="easy") easyBtn.classList.add("active");
-    if(difficulty==="medium") mediumBtn.classList.add("active");
-    if(difficulty==="hard") hardBtn.classList.add("active");
+function getCurrentPlayerName() {
+    if (mode === "pvm" && currentPlayer === "O") {
+        return "Machine";
+    }
+    return currentPlayer === "X" ? player1Name : player2Name
 }
 
 // Reiniciar juego //
 function restartGame() {
     currentPlayer = "X";
     options = ["", "", "", "", "", "", "", "", ""];
-    statusText.textContent = `${currentPlayer}'s turn`;
+    statusText.textContent = `${getCurrentPlayerName()}'s turn`;
     Array.from(cells).forEach(cell => cell.textContent = "");
     running = true;
+}
+
+// Regresar a configuraciones del juego //
+function backToSetup() {
+    window.location.href = "index.html"
 }
