@@ -2,6 +2,7 @@ body{
     display: grid;
     align-items: center;
     justify-content: center;
+    text-align: center;
     background: linear-gradient(rgb(112, 34, 202), rgb(66, 16, 180), rgb(172, 29, 164), rgb(66, 16, 180), rgb(112, 34, 202));
 }
 
@@ -18,16 +19,19 @@ body{
     display: grid;
     grid-template-columns: repeat(3, auto);
     border: 1px solid purple;
-    margin-bottom:30px ;
+    margin: 20px auto;
     background: rgba(141, 36, 141, 0.774);
 }
 
 .q{
     height: 100px;
     width: 100px;
-    border: 1px solid purple;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.9px solid purple;
     cursor: pointer;
-    font-size: 90px;
+    font-size: 70px;
     font-family: sans-serif;
     color: rgb(18, 1, 29);
 }
@@ -38,6 +42,9 @@ body{
     border-radius: 6px;
     background: rgb(119, 22, 119);
     color: rgb(24, 1, 24);
+    margin-top: 10px;
+    padding: 8px 20px;
+    cursor: pointer;
 }
 
 #main h1, h2{
@@ -52,14 +59,14 @@ margin: 15px 0;
     margin: o 5px;
     padding: 8px 16px;
     cursor: pointer;
-    background: rgb(119, 22, 119);
+    background: rgb(92, 35, 109);
     color: rgb(24, 1, 24);
     border: 5px thin rgb(44, 7, 44);
     border-radius: 6px;
 }
 
 .controls button.active{
-   background: rgba(119, 22, 119, 0.767);
+   background: rgba(166, 35, 170, 0.781);
     color: rgb(34, 12, 34);
     border: 5px thin rgb(44, 7, 44);
 }
