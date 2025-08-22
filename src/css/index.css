@@ -98,3 +98,20 @@ input[type=radio]:checked::before{
     display: block;
     border-radius: 50%;
 }
+
+.popup{
+    background: rgb(248, 119, 242);
+}
+
+.title{
+    color: rgb(107, 4, 56);
+}
+
+.icon{
+    color: rgb(202, 33, 75) !important;
+    border: 5px rgb(202, 33, 75) solid !important;
+}
+
+.popupBtn{
+    background: rgb(109, 4, 109);
+}

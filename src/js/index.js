@@ -48,8 +48,19 @@ startBtn.addEventListener("click", () => {
         :"";
         
     if (!player1) {
-        alert("Please enter Player 1 name")
-        return
+    Swal.fire({
+        icon: "warning",
+        title: "Missing name",
+        text: "Please enter a name",
+        confirmButtonText: "OK",
+        customClass: {
+        popup: 'popup',
+        title: 'title',
+        confirmButton: 'popupBtn',
+        icon: 'icon'
+    }
+    });
+    return;
     }
 
     localStorage.setItem("mode", mode);
