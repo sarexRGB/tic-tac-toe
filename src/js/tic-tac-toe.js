@@ -3,9 +3,12 @@ const cells = document.getElementsByClassName("q");
 const statusText = document.getElementById("statusText");
 const restartBtn = document.getElementById("restartBtn");
 const setupBtn = document.getElementById("setupBtn");
+const resetScoreBtn = document.getElementById("resetScoreBtn");
 
 const mode = localStorage.getItem("mode") || "pvp";
-const difficulty = localStorage.getItem("difficulty") || "easy";
+const storageKey = (mode === "pvm") ? "pvm" : "pvp";
+
+const difficulty = (localStorage.getItem("difficulty") || "easy").toLowerCase().trim();
 const player1Name = localStorage.getItem("player1") ||"player1";
 const player2Name = localStorage.getItem("player2") || "player2";
 
@@ -18,6 +21,9 @@ const winConditions = [
 let options = ["", "", "", "", "", "", "", "", ""];
 let currentPlayer = "X";
 let running = false;
+let scorePlayer1 = 0;
+let scorePlayer2 = 0;
+let scoreDraws = 0;
 
 // Iniciar juego //
 startGame()
@@ -26,6 +32,12 @@ function startGame() {
     Array.from(cells).forEach(cell => cell.addEventListener("click", cellClicked));
     restartBtn.addEventListener("click", restartGame);
     setupBtn.addEventListener("click", backToSetup);
+    resetScoreBtn.addEventListener("click", resetScore);
+
+    scorePlayer1 = parseInt(localStorage.getItem(`scorePlayer1_${storageKey}`)) || 0;
+    scorePlayer2 = parseInt(localStorage.getItem(`scorePlayer2_${storageKey}`)) || 0;
+    scoreDraws   = parseInt(localStorage.getItem(`scoreDraw_${storageKey}`)) || 0;
+    updateScoreboard()
 
     statusText.textContent = `${getCurrentPlayerName()}'s turn`;
     running = true;
@@ -35,13 +47,16 @@ function startGame() {
 function cellClicked() {
     const cellIndex = this.getAttribute("cellIndex");
 
-    if (options[cellIndex] !== "" || !running) return;
+    if (options[cellIndex] !== "" || !running || (mode === "pvm" && currentPlayer === "O")) return;
 
     updateCell(this, cellIndex);
     checkWinner();
 
-    if (running && mode === "pvm" && currentPlayer === "O") {
-        setTimeout(machineMove, 500);
+    if(running && mode === "pvp") changePlayer();
+    if (running && mode === "pvm") {
+        currentPlayer === "O"
+        statusText.textContent = "Machine is thinking...";
+        setTimeout(machineMove, 1000);
     }
 }
 
@@ -57,36 +72,61 @@ function changePlayer() {
 
 function checkWinner() {
     let roundWon = false;
+    let winningCells = [];
 
     for (let condition of winConditions) {
         const [a,b,c] = condition;
-        const cellA = options[a];
-        const cellB = options[b];
-        const cellC = options[c];
-
-        if (cellA == "" || cellB == "" || cellC == "") continue;
-        if (cellA == cellB && cellB == cellC) {
+        if (options[a] && options[a] === options[b] && options[a] === options[c]) {
             roundWon = true;
+            winningCells = [a,b,c];
             break;
         }
     }
 
     if (roundWon) {
         statusText.textContent = `${getCurrentPlayerName()} wins!`;
+        winningCells.forEach(i => cells[i].classList.add("win"));
         running = false;
-    }else if (!options.includes("")) {
-        statusText.textContent = `Draw!`;
+        currentPlayer === "X" ? scorePlayer1++ : scorePlayer2++;
+        updateScoreboard();
+    } else if (!options.includes("")) {
+        statusText.textContent = "Draw!";
         running = false;
-    }else {
-        changePlayer();
+        scoreDraws++;
+        updateScoreboard();
     }
 }
 
+// Marcador //
+function updateScoreboard()
+    {
+    document.getElementById("scoreP1").textContent = scorePlayer1;
+    document.getElementById("scoreP2").textContent = scorePlayer2;
+    document.getElementById("scoreDraws").textContent = scoreDraws;
+    document.getElementById("player1Name").textContent = player1Name;
+    document.getElementById("player2Name").textContent = (mode === "pvm")? "Machine" : player2Name;
+
+    localStorage.setItem(`scorePlayer1_${storageKey}`, scorePlayer1);
+    localStorage.setItem(`scorePlayer2_${storageKey}`, scorePlayer2);
+    localStorage.setItem(`scoreDraw_${storageKey}`, scoreDraws);
+}
+
+function resetScore() {
+    scorePlayer1 = scorePlayer2 = scoreDraws = 0;
+    localStorage.removeItem(`scorePlayer1_${storageKey}`);
+    localStorage.removeItem(`scorePlayer2_${storageKey}`);
+    localStorage.removeItem(`scoreDraw_${storageKey}`);
+    updateScoreboard();
+}
+
 // IA //
-function machineMove(){
-    if(difficulty === "easy") randomMove();
-    else if(difficulty === "medium") if(!mediumMove()) randomMove();
-    else if(difficulty === "hard") bestMoveMinimax();
+function machineMove() {
+    switch(difficulty) {
+        case "easy": randomMove(); break;
+        case "medium": if(!mediumMove()) randomMove(); break;
+        case "hard": bestMoveMinimax(); break;
+        default: bestMoveMinimax();
+    }
 }
 
 // Modo fácil //
@@ -117,23 +157,23 @@ function findBestMove(player){
 }
 
 // Modo difícil//
-function bestMoveMinimax(){
+function bestMoveMinimax() {
     let bestScore = -Infinity;
-    let move;
+    let move = -1;
     for(let i=0;i<options.length;i++){
         if(options[i]===""){
             options[i]="O";
-            let score = minimax(options,0,false);
-            options[i]="";
-            if(score>bestScore){ bestScore=score; move=i; }
+            let score = minimax(options, 0, false);
+            options[i] = "";
+            if(score > bestScore){ bestScore = score; move = i; }
         }
     }
-    playMove(move);
+    if(move!==-1) playMove(move); else randomMove();
 }
 
 function minimax(board,depth,isMax){
     let result = evaluate(board);
-    if(result!==null) return result;
+    if(result!==null) return result + depth;
 
     if(isMax){
         let best = -Infinity;
@@ -171,24 +211,31 @@ function evaluate(board){
 
 function playMove(index){
     let cell = cells[index];
+    if(mode === "pvm" && currentPlayer !== "O") currentPlayer = "O";
     updateCell(cell,index);
     checkWinner();
+    if(running && mode === "pvp") changePlayer();
+    if (running && mode === "pvm" && currentPlayer === "O") {
+        currentPlayer = "X"
+        statusText.textContent = `${getCurrentPlayerName()}'s turn`;
+    }
 }
 
 function getCurrentPlayerName() {
-    if (mode === "pvm" && currentPlayer === "O") {
-        return "Machine";
-    }
-    return currentPlayer === "X" ? player1Name : player2Name
+    if (mode === "pvm" && currentPlayer === "O") return "Machine";
+    return currentPlayer === "X" ? player1Name : player2Name;
 }
 
 // Reiniciar juego //
 function restartGame() {
     currentPlayer = "X";
     options = ["", "", "", "", "", "", "", "", ""];
-    statusText.textContent = `${getCurrentPlayerName()}'s turn`;
-    Array.from(cells).forEach(cell => cell.textContent = "");
+    Array.from(cells).forEach(cell => {
+        cell.textContent = "";
+        cell.classList.remove("win");
+    });
     running = true;
+    statusText.textContent = `${getCurrentPlayerName()}'s turn`;
 }
 
 // Regresar a configuraciones del juego //

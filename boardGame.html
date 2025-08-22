@@ -7,25 +7,36 @@
     <link rel="stylesheet" href="src/css/tic-tac-toe.css">
 </head>
 <body>
+    <h1>Tic Tac Toe</h1>
     <div id="main">
-        <h1>Tic Tac Toe</h1>
-        <h2 id="players"></h2>
-
-
-        <div id="gameBoard">
-            <div class="q" cellIndex="0"></div>
-            <div class="q" cellIndex="1"></div>
-            <div class="q" cellIndex="2"></div>
-            <div class="q" cellIndex="3"></div>
-            <div class="q" cellIndex="4"></div>
-            <div class="q" cellIndex="5"></div>
-            <div class="q" cellIndex="6"></div>
-            <div class="q" cellIndex="7"></div>
-            <div class="q" cellIndex="8"></div>
+        <div id="board">
+            <div id="gameBoard">
+                <div class="q" cellIndex="0"></div>
+                <div class="q" cellIndex="1"></div>
+                <div class="q" cellIndex="2"></div>
+                <div class="q" cellIndex="3"></div>
+                <div class="q" cellIndex="4"></div>
+                <div class="q" cellIndex="5"></div>
+                <div class="q" cellIndex="6"></div>
+                <div class="q" cellIndex="7"></div>
+                <div class="q" cellIndex="8"></div>
+            </div>
+            <h2 id="statusText"></h2>
+            <button id="restartBtn">Restart</button>
         </div>
-        <h2 id="statusText"></h2>
-        <button id="restartBtn">Restart</button>
-        <button id="setupBtn">Back to Setup</button>
+
+         <div id="scoreboard">
+            <h2>Score</h2>
+            <p><span id="player1Name">Player1:</span><span id="scoreP1">0</span></p>
+            <p><span id="player2Name">Player2:</span><span id="scoreP2">0</span></p>
+            <p>Draws: <span id="scoreDraws">0</span></p>
+            <button id="resetScoreBtn">Reset Score</button>
+        </div>
+        
+        <div id="setup">
+            <button id="setupBtn">Back to Setup</button>
+        </div>
+        
     </div>
 
 
