@@ -12,12 +12,13 @@ body{
     justify-content: center;
     text-align: center;
     gap: 40px;
-    margin: 25px
+    margin: 25px;
 }
 
 #scoreboard{
     padding: 0 10px;
     border: 1px solid rgb(78, 4, 121);
+    background: rgba(111, 0, 255, 0.685);
     height: 280px;
     
 }
@@ -44,6 +45,7 @@ body{
 
 #restartBtn{
     width: 100px;
+    font-size: 16px;
     border: 5px thin rgb(44, 7, 44);
     border-radius: 6px;
     background: rgb(119, 22, 119);
@@ -54,7 +56,8 @@ body{
 }
 
 #resetScoreBtn{
-    width: 118px;
+    width: 122px;
+    font-size: 14px;
     border: 5px thin rgb(44, 7, 44);
     border-radius: 6px;
     background: rgb(119, 22, 119);
@@ -65,7 +68,9 @@ body{
 }
 
 #setupBtn{
-    width: 127px;
+    width: 165px;
+    height: 47px;
+    font-size: 19px;
     border: 5px thin rgb(44, 7, 44);
     border-radius: 6px;
     background: rgb(119, 22, 119);
@@ -90,4 +95,8 @@ p{
 
 #scoreboard h2{
     font-size: 29px;
+}
+
+#setup{
+    width: 156.5%;
 }
